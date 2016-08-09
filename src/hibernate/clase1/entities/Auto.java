@@ -1,6 +1,7 @@
 package hibernate.clase1.entities;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /*
 
@@ -30,15 +31,18 @@ public class Auto {
     private Integer anio;
     @Column(name = "au_precio")
     private Float precio;
+    @Column(name = "au_fecha_venta")
+    private Date fechaVenta;
 
     public Auto() {
     }
 
-    public Auto(String marca, String modelo, Integer anio, Float precio) {
+    public Auto(String marca, String modelo, Integer anio, Float precio, Date fechaVenta) {
         this.marca = marca;
         this.modelo = modelo;
         this.anio = anio;
         this.precio = precio;
+        this.fechaVenta = fechaVenta;
     }
 
     public Long getId() {
@@ -81,6 +85,14 @@ public class Auto {
         this.precio = precio;
     }
 
+    public Date getFechaVenta() {
+        return fechaVenta;
+    }
+
+    public void setFechaVenta(Date fechaVenta) {
+        this.fechaVenta = fechaVenta;
+    }
+
     @Override
     public String toString() {
         return "Auto{" +
@@ -89,6 +101,7 @@ public class Auto {
                 ", modelo='" + modelo + '\'' +
                 ", anio=" + anio +
                 ", precio=" + precio +
+                ", fechaVenta=" + fechaVenta +
                 '}';
     }
 }

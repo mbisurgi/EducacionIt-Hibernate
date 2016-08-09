@@ -1,6 +1,7 @@
 package hibernate.clase1.manager;
 
 import hibernate.clase1.entities.Auto;
+import hibernate.clase1.entities.Concesionario;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -9,26 +10,33 @@ import org.hibernate.cfg.Configuration;
 import java.util.Properties;
 
 public class SessionFactoryManager {
-    public SessionFactory getSessionFactory(){
+    private static SessionFactory sessionFactory = null;
 
+    public static SessionFactory getSessionFactory(){
+        if (sessionFactory == null) {
+            sessionFactory = buildSessionFactory();
+        }
+
+        return sessionFactory;
+    }
+
+    private static SessionFactory buildSessionFactory() throws HibernateException {
         Configuration config = new Configuration();
         config.setProperties(getHibernateProperties());
         addAnnotatedClasses(config);
-        return buildSessionFactory(config);
-    }
 
-    private SessionFactory buildSessionFactory(Configuration config) throws HibernateException {
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().
                 applySettings(config.getProperties());
         SessionFactory factory = config.buildSessionFactory(builder.build());
         return factory;
     }
 
-    private void addAnnotatedClasses(Configuration config) {
+    private static void addAnnotatedClasses(Configuration config) {
         config.addAnnotatedClass(Auto.class);
+        config.addAnnotatedClass(Concesionario.class);
     }
 
-    private Properties getHibernateProperties() {
+    private static Properties getHibernateProperties() {
         Properties props = new Properties();
         // Establece el driver de conexion dependiente del RDBMS
         props.put("hibernate.connection.driver_class", "org.gjt.mm.mysql.Driver");
